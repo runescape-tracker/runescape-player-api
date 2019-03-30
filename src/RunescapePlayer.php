@@ -93,15 +93,6 @@ class RunescapePlayer
         "Clue Scrolls Master",
     ];
 
-    /**
-     * @var array Possible player types
-     */
-    private $possiblePlayerTypes = [
-        'regular',
-        'ironman',
-        'hardcore_ironman',
-    ];
-
     public function __construct($playerName = null)
     {
         if ($playerName) {
