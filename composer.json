@@ -3,7 +3,8 @@
     "description": "PHP API for Runescape Players",
     "type": "library",
     "require": {
-        "guzzlehttp/guzzle": "^6.3@dev"
+        "guzzlehttp/guzzle": "^6.3@dev",
+        "php": "^7.3"
     },
     "license": "MIT",
     "authors": [

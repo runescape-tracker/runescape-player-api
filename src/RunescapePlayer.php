@@ -15,11 +15,6 @@ class RunescapePlayer
     private $playerName;
 
     /**
-     * @var String Type of player, regular, ironman, hardcore_ironman
-     */
-    private $playerType;
-
-    /**
      * @var array
      */
     private $player = [
