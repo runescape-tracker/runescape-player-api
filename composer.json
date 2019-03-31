@@ -19,7 +19,7 @@
     },
     "autoload": {
         "psr-4": {
-            "RunescapeTracker\\": "src"
+            "RunescapeTracker\\RunescapePlayerApi\\": "src"
         }
     }
 }

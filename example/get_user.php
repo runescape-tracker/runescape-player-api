@@ -2,9 +2,11 @@
 
 include __DIR__ . "/../vendor/autoload.php";
 
-$player = new \RunescapeTracker\RunescapePlayer();
-$player->setPlayerName("zezima");
-$player->get();
+$player = (new \RunescapeTracker\RunescapePlayerApi\RunescapePlayer("zezima"))->getHiscore();
 
-var_dump($player->player());
+var_dump(
+    $player->getActivity("Bounty Hunter"),
+    $player->getActivity("runescore"),
+    $player->getActivity("bh rogues")
+);
 

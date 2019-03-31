@@ -1,10 +1,11 @@
 <?php
 
 
-namespace RunescapeTracker;
+namespace RunescapeTracker\RunescapePlayerApi;
 
 
 use GuzzleHttp\Client;
+use phpDocumentor\Reflection\Types\This;
 
 class RunescapePlayer
 {
@@ -93,19 +94,7 @@ class RunescapePlayer
         "Clue Scrolls Master",
     ];
 
-    public function __construct($playerName = null)
-    {
-        if ($playerName) {
-            $this->setPlayerName($playerName);
-        }
-    }
-
-    /**
-     * Set the player name
-     *
-     * @param string $playerName
-     */
-    public function setPlayerName(string $playerName): void
+    public function __construct(string $playerName)
     {
         $this->playerName = $playerName;
     }
@@ -113,9 +102,11 @@ class RunescapePlayer
     /**
      * Make the API request to get the player
      */
-    public function get(): void
+    public function getHiscore(): RunescapePlayer
     {
-        $client = new Client();
+        $client = new Client([
+            'http_errors'   =>  false
+        ]);
 
         $url = sprintf($this->endpoints["hiscore_regular"], $this->playerName);
 
@@ -150,6 +141,8 @@ class RunescapePlayer
                 }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -162,5 +155,45 @@ class RunescapePlayer
         return $this->player;
     }
 
+    /**
+     * Get a skill by name
+     *
+     * @param $name
+     * @return array|null
+     */
+    public function getSkill($name)
+    {
+        if(in_array(ucfirst($name), $this->skillList))
+            return $this->player['skills'][ucfirst($name)];
+
+        return null;
+    }
+
+    /**
+     * Returns a players minigame activity ranking
+     *
+     * @param $name
+     * @return array
+     */
+    public function getActivity($name): array
+    {
+
+        if(in_array(ucfirst($name), $this->activitiesList))
+            return $this->player['activities'][ucfirst($name)];
+
+        foreach ($this->activitiesList as $activity)
+        {
+            $tryMatch = strtolower($activity);
+            $tryMatch2 = str_replace(".", "", $tryMatch);
+
+            $lowercaseName = strtolower($name);
+
+            if($tryMatch === $lowercaseName || $tryMatch2 === $lowercaseName)
+                return $this->player['activities'][$activity];
+
+        }
+
+        return null;
+    }
 
 }
