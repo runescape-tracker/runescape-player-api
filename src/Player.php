@@ -5,112 +5,64 @@ namespace RunescapeTracker\RunescapePlayerApi;
 
 
 use GuzzleHttp\Client;
-use phpDocumentor\Reflection\Types\This;
 
-class RunescapePlayer
+abstract class Player
 {
 
     /**
      * @var string Player Name
      */
-    private $playerName;
+    protected $playerName;
 
     /**
      * @var array
      */
-    private $player = [
+    protected $player = [
         'skills'    =>  [],
         'activities'    =>  []
     ];
 
     /**
+     * @var string Current endpoint
+     */
+    protected $endpoint;
+
+    /**
      * @var array Series of endpoints related to a Runescape Player
      */
-    private $endpoints = [
-        'hiscore_regular' => 'https://secure.runescape.com/m=hiscore/index_lite.ws?player=%s',
-    ];
+    protected $endpoints = [];
 
-    private $skillList = [
-        "Overall",
-        "Attack",
-        "Defence",
-        "Strength",
-        "Constitution",
-        "Ranged",
-        "Prayer",
-        "Magic",
-        "Cooking",
-        "Woodcutting",
-        "Fletching",
-        "Fishing",
-        "Firemaking",
-        "Crafting",
-        "Smithing",
-        "Mining",
-        "Herblore",
-        "Agility",
-        "Thieving",
-        "Slayer",
-        "Farming",
-        "Runecrafting",
-        "Hunter",
-        "Construction",
-        "Summoning",
-        "Dungeoneering",
-        "Divination",
-        "Invention",
-    ];
+    /**
+     * @var array Array of skills
+     */
+    protected $skillList = [];
 
-    private $activitiesList = [
-        "Bounty Hunter",
-        "B.H. Rogues",
-        "Dominion Tower",
-        "The Crucible",
-        "Castle Wars games",
-        "B.A. Attackers",
-        "B.A. Defenders",
-        "B.A. Collectors",
-        "B.A. Healers",
-        "Duel Tournament",
-        "Mobilising Armies",
-        "Conquest",
-        "Fist of Guthix",
-        "GG: Athletics",
-        "GG: Resource Race",
-        "WE2: Armadyl Lifetime Contribution",
-        "WE2: Bandos Lifetime Contribution",
-        "WE2: Armadyl PvP kills",
-        "WE2: Bandos PvP kills",
-        "Heist Guard Level",
-        "Heist Robber Level",
-        "CFP: 5 game average",
-        "AF15: Cow Tipping",
-        "AF15: Rats killed after the miniquest",
-        "RuneScore",
-        "Clue Scrolls Easy",
-        "Clue Scrolls Medium",
-        "Clue Scrolls Hard",
-        "Clue Scrolls Elite",
-        "Clue Scrolls Master",
-    ];
+    /**
+     * @var array Array of activities
+     */
+    protected $activitiesList = [];
 
-    public function __construct(string $playerName)
+    public function __construct(string $playerName, string $endpoint)
     {
+
         $this->playerName = $playerName;
+
+        $this->client = new Client([
+            'http_errors'   =>  false
+        ]);
+
+        if(array_key_exists($endpoint, $this->endpoints))
+            $this->endpoint = $endpoint;
     }
 
     /**
      * Make the API request to get the player
      */
-    public function getHiscore(): RunescapePlayer
+    public function getHiscore(): self
     {
-        $client = new Client([
-            'http_errors'   =>  false
-        ]);
+        $url = sprintf($this->endpoints[$this->endpoint], $this->playerName);
 
-        $url = sprintf($this->endpoints["hiscore_regular"], $this->playerName);
-
-        $req = $client->get($url);
+        $req = $this->client->get($url);
 
         if ($req->getStatusCode() === 200) {
             $contents = $req->getBody()->getContents();
