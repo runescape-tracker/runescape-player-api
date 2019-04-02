@@ -3,20 +3,21 @@
 
 namespace RunescapeTracker\RunescapePlayerApi;
 
-
-use GuzzleHttp\Client;
-use phpDocumentor\Reflection\Types\This;
-
 class RS3Player extends Player
 {
+
+
+    const HISCORE_REGULAR = 'hiscore_regular';
+    const HISCORE_IRONMAN = 'hiscore_ironman';
+    const HISCORE_HARDCORE_IRONMAN = 'hiscore_hardcore_ironman';
 
     /**
      * @var array Series of endpoints related to a Runescape Player
      */
     protected $endpoints = [
-        'hiscore_regular' => 'https://secure.runescape.com/m=hiscore/index_lite.ws?player=%s',
-        'hiscore_ironman' => 'https://secure.runescape.com/m=hiscore_oldschool_ironman/index_lite.ws?player=%s',
-        'hiscore_hardcore_ironman'  =>  'https://secure.runescape.com/m=hiscore_hardcore_ironman/index_lite.ws?player=%s'
+        self::HISCORE_REGULAR => 'https://secure.runescape.com/m=hiscore/index_lite.ws?player=%s',
+        self::HISCORE_IRONMAN => 'https://secure.runescape.com/m=hiscore_ironman/index_lite.ws?player=%s',
+        self::HISCORE_HARDCORE_IRONMAN  =>  'https://secure.runescape.com/m=hiscore_hardcore_ironman/index_lite.ws?player=%s'
     ];
 
     protected $skillList = [
@@ -83,7 +84,7 @@ class RS3Player extends Player
         "Clue Scrolls Master",
     ];
 
-    public function __construct(string $playerName, string $endpoint = 'hiscore_regular')
+    public function __construct(string $playerName, string $endpoint = self::HISCORE_REGULAR)
     {
         parent::__construct($playerName, $endpoint);
     }
