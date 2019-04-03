@@ -148,4 +148,22 @@ abstract class Player
         return null;
     }
 
+    /**
+     * Return the skill list for the game
+     *
+     * @return array
+     */
+    public function getSkillList(): array {
+        return $this->skillList;
+    }
+
+    /**
+     * Return the activities list for the game
+     *
+     * @return array
+     */
+    public function getActivitiesList(): array {
+        return $this->activitiesList;
+    }
+
 }
