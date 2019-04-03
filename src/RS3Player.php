@@ -1,11 +1,8 @@
 <?php
-
-
 namespace RunescapeTracker\RunescapePlayerApi;
 
 class RS3Player extends Player
 {
-
 
     const HISCORE_REGULAR = 'hiscore_regular';
     const HISCORE_IRONMAN = 'hiscore_ironman';
