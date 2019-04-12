@@ -1,9 +1,9 @@
 <?php
+
 namespace RunescapeTracker\RunescapePlayerApi;
 
 class RS3Player extends Player
 {
-
     const HISCORE_REGULAR = 'hiscore_regular';
     const HISCORE_IRONMAN = 'hiscore_ironman';
     const HISCORE_HARDCORE_IRONMAN = 'hiscore_hardcore_ironman';
@@ -14,7 +14,7 @@ class RS3Player extends Player
     protected $endpoints = [
         self::HISCORE_REGULAR => 'https://secure.runescape.com/m=hiscore/index_lite.ws?player=%s',
         self::HISCORE_IRONMAN => 'https://secure.runescape.com/m=hiscore_ironman/index_lite.ws?player=%s',
-        self::HISCORE_HARDCORE_IRONMAN  =>  'https://secure.runescape.com/m=hiscore_hardcore_ironman/index_lite.ws?player=%s'
+        self::HISCORE_HARDCORE_IRONMAN  =>  'https://secure.runescape.com/m=hiscore_hardcore_ironman/index_lite.ws?player=%s',
     ];
 
     protected $skillList = [
@@ -85,5 +85,4 @@ class RS3Player extends Player
     {
         parent::__construct($playerName, $endpoint);
     }
-
 }

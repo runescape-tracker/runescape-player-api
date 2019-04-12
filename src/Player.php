@@ -8,7 +8,6 @@ use GuzzleHttp\Client;
 
 abstract class Player
 {
-
     /**
      * @var string Player Name
      */
@@ -18,8 +17,8 @@ abstract class Player
      * @var array
      */
     protected $player = [
-        'skills'    =>  [],
-        'activities'    =>  []
+        'skills' => [],
+        'activities' => [],
     ];
 
     /**
@@ -44,15 +43,15 @@ abstract class Player
 
     public function __construct(string $playerName, string $endpoint)
     {
-
         $this->playerName = $playerName;
 
         $this->client = new Client([
-            'http_errors'   =>  false
+            'http_errors' => false,
         ]);
 
-        if(array_key_exists($endpoint, $this->endpoints))
+        if (array_key_exists($endpoint, $this->endpoints)) {
             $this->endpoint = $endpoint;
+        }
     }
 
     /**
@@ -72,23 +71,19 @@ abstract class Player
 
             $this->player['playername'] = $this->playerName;
 
-            foreach($combined as $skill => $values)
-            {
+            foreach ($combined as $skill => $values) {
                 $ex = explode(",", $values);
 
-                if(count($ex) === 2)
-                {
+                if (count($ex) === 2) {
                     $this->player['activities'][$skill] = [
                         'ranking' => $ex[0],
                         'total' => $ex[1],
                     ];
-
-                } else if(count($ex) === 3)
-                {
+                } elseif (count($ex) === 3) {
                     $this->player['skills'][$skill] = [
-                        'rank'    =>  $ex[0],
-                        'level'    =>  $ex[1],
-                        'experience'    =>  $ex[2],
+                        'rank' => $ex[0],
+                        'level' => $ex[1],
+                        'experience' => $ex[2],
                     ];
                 }
             }
@@ -113,10 +108,11 @@ abstract class Player
      * @param $name
      * @return array|null
      */
-    public function getSkill($name)
+    public function getSkill($name): ?array
     {
-        if(in_array(ucfirst($name), $this->skillList))
+        if (in_array(ucfirst($name), $this->skillList)) {
             return $this->player['skills'][ucfirst($name)];
+        }
 
         return null;
     }
@@ -127,22 +123,21 @@ abstract class Player
      * @param $name
      * @return array
      */
-    public function getActivity($name): array
+    public function getActivity($name): ?array
     {
-
-        if(in_array(ucfirst($name), $this->activitiesList))
+        if (in_array(ucfirst($name), $this->activitiesList)) {
             return $this->player['activities'][ucfirst($name)];
+        }
 
-        foreach ($this->activitiesList as $activity)
-        {
+        foreach ($this->activitiesList as $activity) {
             $tryMatch = strtolower($activity);
             $tryMatch2 = str_replace(".", "", $tryMatch);
 
             $lowercaseName = strtolower($name);
 
-            if($tryMatch === $lowercaseName || $tryMatch2 === $lowercaseName)
+            if ($tryMatch === $lowercaseName || $tryMatch2 === $lowercaseName) {
                 return $this->player['activities'][$activity];
-
+            }
         }
 
         return null;
@@ -153,7 +148,8 @@ abstract class Player
      *
      * @return array
      */
-    public function getSkillList(): array {
+    public function getSkillList(): array
+    {
         return $this->skillList;
     }
 
@@ -162,8 +158,8 @@ abstract class Player
      *
      * @return array
      */
-    public function getActivitiesList(): array {
+    public function getActivitiesList(): array
+    {
         return $this->activitiesList;
     }
-
 }
