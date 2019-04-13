@@ -2,12 +2,10 @@
 
 namespace RunescapeTracker\RunescapePlayerApi;
 
-
 use GuzzleHttp\Client;
 
 class OSPlayer extends Player
 {
-
     const HISCORE_REGULAR = 'hiscore_regular';
     const HISCORE_IRONMAN = 'hiscore_ironman';
     const HISCORE_HARDCORE_IRONMAN = 'hiscore_hardcore_ironman';
@@ -74,9 +72,8 @@ class OSPlayer extends Player
         "LMS Rank",
     ];
 
-    public function __construct(string $playerName, string $endpoint = 'hiscore_regular')
+    public function __construct(string $playerName, string $endpoint = self::HISCORE_REGULAR)
     {
         parent::__construct($playerName, $endpoint);
     }
-
 }
